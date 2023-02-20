@@ -3,7 +3,7 @@ import {
 } from 'phaser'
 
 
-class Boot extends Scene {
+export default class Boot extends Scene {
     create() {
         this.cameras.main.setBackgroundColor('#34c3eb')
         this.startLoader()
@@ -23,5 +23,3 @@ class Boot extends Scene {
         this.scene.start('menu')
     }
 }
-
-export default Boot
