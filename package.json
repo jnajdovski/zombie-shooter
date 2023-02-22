@@ -19,6 +19,6 @@
   },
   "devDependencies": {
     "parcel": "^2.8.3",
-    "@phaser-plus/cli": "^0.1.6"
+    "@phaser-plus/cli": "^0.1.7"
   }
 }
