@@ -1,4 +1,4 @@
-import { Animations, GameObjects, Input, Scene } from "phaser";
+import { GameObjects, Input, Scene } from "phaser";
 import { keyDown } from "../helpers/keyboardMovement";
 
 export default class Player extends GameObjects.Sprite {
@@ -6,17 +6,22 @@ export default class Player extends GameObjects.Sprite {
     playerAnimations: { name: string, endFrame: number }[] = [{ name: 'player_idle', endFrame: 19 }, { name: 'player_move', endFrame: 19 }, { name: 'player_shoot', endFrame: 2 }];
     speed: number = 8
     keys: { W: Input.Keyboard.Key, A: Input.Keyboard.Key, S: Input.Keyboard.Key, D: Input.Keyboard.Key }
-    currentAnimPlayed: string = ''
-    moveLeft: boolean = false
-    moveRight: boolean = false
-    moveDown: boolean = false
-    moveUp: boolean = false
+    movingLeft: boolean = false
+    movingRight: boolean = false
+    movingDown: boolean = false
+    movingUp: boolean = false
+    playerShoot: boolean = false
+
+    keyA: Input.Keyboard.Key
+    keyS: Input.Keyboard.Key
+    keyD: Input.Keyboard.Key
+    keyW: Input.Keyboard.Key
 
     constructor(scene: Scene, x: number, y: number) {
         super(scene, x, y, 'player_idle', 0)
         this.setOrigin(0.5, 0.5)
         this.setScale(0.8)
-        this._createAnimations()
+        this.createAnimations()
         this.idle()
         scene.children.add(this)
 
@@ -27,57 +32,85 @@ export default class Player extends GameObjects.Sprite {
             D: scene.input.keyboard.addKey('D')
         }
 
-        window.addEventListener('keydown', (event) => {
-            if (keyDown(event) === 'left') this.moveLeft = true
-            if (keyDown(event) === 'right') this.moveRight = true
-            if (keyDown(event) === 'down') this.moveDown = true
-            if (keyDown(event) === 'up') this.moveUp = true
-        });
+        // window.addEventListener('keydown', (event) => {
+        //     if (keyDown(event) === 'left') this.movingLeft = true
+        //     if (keyDown(event) === 'right') this.movingRight = true
+        //     if (keyDown(event) === 'down') this.movingDown = true
+        //     if (keyDown(event) === 'up') this.movingUp = true
+        // });
 
-        window.addEventListener('keyup', (event) => {
-            if (keyDown(event) === 'left') this.moveLeft = false
-            if (keyDown(event) === 'right') this.moveRight = false
-            if (keyDown(event) === 'down') this.moveDown = false
-            if (keyDown(event) === 'up') this.moveUp = false
-        });
+        // window.addEventListener('keyup', (event) => {
+        //     if (keyDown(event) === 'left') this.movingLeft = false
+        //     if (keyDown(event) === 'right') this.movingRight = false
+        //     if (keyDown(event) === 'down') this.movingDown = false
+        //     if (keyDown(event) === 'up') this.movingUp = false
+        // });
+
+        this.keyW = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W)
+        this.keyA = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A)
+        this.keyS = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S)
+        this.keyD = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D)
+
+        // scene.input.on('keydown', () => {
+        //     console.log('key down');
+
+        // })
+
+        scene.input.on('pointerdown', () => {
+            this.playerShoot = true
+            this.shoot()
+        })
+        scene.input.on('pointerup', () => {
+            this.playerShoot = false
+            this.idle()
+        })
     }
 
     idle() {
-        this.play('player_idle')
-        this.currentAnimPlayed = 'idle'
+        if (!this.playerShoot) {
+            this.stop()
+            this.play('player_idle')
+        }
     }
 
-    move(direction: string) {
-        this.play('player_move')
-        this[`_move${direction}`]()
+    move() {
+        if (!this.playerShoot) {
+            this.stop()
+            this.play('player_move')
+        }
     }
 
     shoot() {
+        this.stop()
         this.play('player_shoot')
     }
 
-    _moveLeft() {
+    private moveLeft() {
+        this.move()
         const nextPos = this.x - this.speed
         if (nextPos > 0) {
             this.setX(nextPos)
         }
     }
 
-    _moveRight() {
+    private moveRight() {
+        this.move()
         const nextPos = this.x + this.speed
         if (nextPos < this.scene.cameras.main.width) {
             this.setX(this.x + this.speed)
         }
     }
 
-    _moveUp() {
+    private moveUp() {
+        this.move()
         const nextPos = this.y - this.speed
         if (nextPos > 0) {
             this.setY(nextPos)
         }
     }
 
-    _moveDown() {
+    private moveDown() {
+        this.move()
         const nextPos = this.y + this.speed
         if (nextPos < this.scene.cameras.main.height) {
             this.setY(nextPos)
@@ -89,13 +122,14 @@ export default class Player extends GameObjects.Sprite {
     }
 
     update() {
-        if (this.moveRight) this._moveRight()
-        if (this.moveLeft) this._moveLeft()
-        if (this.moveDown) this._moveDown()
-        if (this.moveUp) this._moveUp()
+        if (this.keyD.isDown) this.moveRight()
+        if (this.keyA.isDown) this.moveLeft()
+        if (this.keyS.isDown) this.moveDown()
+        if (this.keyW.isDown) this.moveUp()
+        if (this.keyW.isUp && this.keyA.isUp && this.keyS.isUp && this.keyD.isUp) this.idle()
     }
 
-    _createAnimations() {
+    private createAnimations() {
         for (let anim of this.playerAnimations) {
             this.scene.anims.create({
                 key: anim.name,

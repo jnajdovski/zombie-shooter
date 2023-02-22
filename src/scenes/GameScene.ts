@@ -19,9 +19,6 @@ export default class GameScene extends Scene {
             this.player.rotatePlayer(pointer)
             this.crosshair.pointerMove(pointer)
         })
-
-        this.input.on('pointerdown', () => this.player.shoot())
-        this.input.on('pointerup', () => this.player.idle())
     }
 
     update(time: number, delta: number): void {
