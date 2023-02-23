@@ -14,6 +14,13 @@ const config = {
     dom: {
         createContainer: true
     },
+    physics: {
+        default: 'arcade',
+        arcade: {
+            gravity: { y: 0 },
+            debug: false
+        }
+    },
     width: 1280,
     height: 720
 }
