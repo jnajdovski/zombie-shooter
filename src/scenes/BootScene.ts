@@ -18,6 +18,7 @@ export default class Boot extends Scene {
     loadGameAssets() {
         this.load.image('background', 'assets/background.jpg')
         this.load.image('crosshair', 'assets/crosshair.png')
+        this.load.image('bullet', 'assets/bullet.png')
 
         this.load.spritesheet('blood', 'assets/bloodAnimation.png', { frameWidth: 128, frameHeight: 128, endFrame: 15 })
         this.load.spritesheet('player_idle', 'assets/idleAnimation.png', { frameWidth: 313, frameHeight: 207, endFrame: 19 })

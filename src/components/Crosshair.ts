@@ -6,6 +6,8 @@ export default class Crosshair extends GameObjects.Sprite {
         this.setOrigin(0.5, 0.5)
         this.setScale(.1)
         scene.children.add(this)
+
+        scene.input.on('pointermove', (pointer) => this.pointerMove(pointer))
     }
 
     pointerMove(pointer: PointerEvent) {

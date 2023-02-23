@@ -14,11 +14,6 @@ export default class GameScene extends Scene {
 
         this.player = new Player(this, this.cameras.main.width / 2, this.cameras.main.height / 2)
         this.crosshair = new Crosshair(this)
-
-        this.input.on('pointermove', (pointer) => {
-            this.player.rotatePlayer(pointer)
-            this.crosshair.pointerMove(pointer)
-        })
     }
 
     update(time: number, delta: number): void {
