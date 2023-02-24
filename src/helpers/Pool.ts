@@ -28,30 +28,27 @@ export default class Pool {
         }
     }
 
-    addNewObject(obj: PoolObject) {
+    addNewObject(obj: PoolObject): PoolObject {
         this.pool.push(obj);
         this.release(obj);
         return obj;
     }
 
-    release(poolObject) {
+    release(poolObject): void {
         poolObject.free = true;
 
         poolObject.nextFree = null;
         poolObject.previousFree = this.lastFree;
 
-        if (poolObject.previousFree && this.lastFree) {
-            this.lastFree.nextFree = poolObject;
-        } else {
-            this.nextFree = poolObject;
-        }
+        if (poolObject.previousFree && this.lastFree) this.lastFree.nextFree = poolObject;
+        else this.nextFree = poolObject;
 
         this.lastFree = poolObject;
 
         this.objReseter(poolObject);
     }
 
-    getFree() {
+    getFree(): PoolObject {
         const freeObject = this.nextFree ? this.nextFree : this.addNewObject(this.newPoolObject());
         freeObject.free = false;
 
@@ -62,12 +59,12 @@ export default class Pool {
         return freeObject;
     }
 
-    newPoolObject() {
+    newPoolObject(): PoolObject {
         const data = this.objCreator();
         return new PoolObject(data);
     }
 
-    releaseAll() {
+    releaseAll(): void {
         this.pool.forEach(item => this.release(item));
     }
 }

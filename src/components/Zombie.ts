@@ -17,7 +17,7 @@ export default class Zombie extends GameObjects.Sprite {
         this.createAnimations()
         this.scene.physics.add.existing(this, false)
         scene.children.add(this)
-        this.visible = false
+        this.setVisible(false)
         this.bulletsPool = bulletsPool
 
         //@ts-ignore
@@ -59,13 +59,13 @@ export default class Zombie extends GameObjects.Sprite {
 
     public show(x, y) {
         this.scene.children.add(this)
-        this.visible = true
+        this.setVisible(true)
         this.setPosition(x, y)
     }
 
     public hide() {
         this.scene.children.remove(this)
-        this.visible = false
+        this.setVisible(false)
         this.hited = 0
         this.body.velocity.x = 0
         this.body.velocity.y = 0

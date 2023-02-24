@@ -35,7 +35,36 @@ export default class Player extends GameObjects.Sprite {
         this.body.height = 100
     }
 
-    private setPlayerEvents() {
+    public hide() {
+        this.setVisible(false)
+    }
+
+    public updateHealth(): void {
+        this.health -= 5
+    }
+
+    public getHealth(): number {
+        return this.health
+    }
+
+
+    public updateKills(): void {
+        this.kills += 1
+    }
+
+    public getKills(): number {
+        return this.kills
+    }
+
+    public rotatePlayer(pointer: PointerEvent): void {
+        this.rotation = Phaser.Math.Angle.BetweenPoints(this, pointer)
+    }
+
+    public getPosition(): { x: number, y: number } {
+        return { x: this.x, y: this.y }
+    }
+
+    private setPlayerEvents(): void {
         this.keyW = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W)
         this.keyA = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A)
         this.keyS = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S)
@@ -58,63 +87,37 @@ export default class Player extends GameObjects.Sprite {
         this.scene.input.on('pointermove', (pointer) => this.rotatePlayer(pointer))
     }
 
-    public updateHealth(): void {
-        this.health -= 5
-    }
-
-    public getHealth(): number {
-        return this.health
-    }
-
-
-    public updateKills() {
-        this.kills += 1
-    }
-
-    public getKills() {
-        return this.kills
-    }
-
-
-    public rotatePlayer(pointer: PointerEvent) {
-        this.rotation = Phaser.Math.Angle.BetweenPoints(this, pointer)
-    }
-
-    public getPosition(): { x: number, y: number } {
-        return { x: this.x, y: this.y }
-    }
-
-    private createBullets() {
+    private createBullets(): Bullet {
         return new Bullet(this.scene, this.x, this.y)
     }
 
-    private resetBullets(obj: PoolObject) {
+    private resetBullets(obj: PoolObject): void {
         obj.data.hide()
         obj.free = true
     }
 
-    private idle() {
+    private idle(): void {
         if (!this.playerShoot) {
             this.stop()
             this.play('player_idle')
         }
     }
 
-    private move() {
+    private move(): void {
         if (!this.playerShoot) {
             this.stop()
             this.play('player_move')
         }
     }
 
-    private shoot() {
+    private shoot(): void {
         this.play('player_shoot')
         if (!this.waitForNextBullet) {
             this.fireBullet()
         }
     }
 
-    private fireBullet() {
+    private fireBullet(): void {
         this.waitForNextBullet = true
         const bullet = this.bulletsPool.getFree()
         bullet.data.show(this.x, this.y)
@@ -126,7 +129,7 @@ export default class Player extends GameObjects.Sprite {
         }, 150);
     }
 
-    private moveLeft() {
+    private moveLeft(): void {
         this.move()
         const nextPos = this.x - this.speed
         if (nextPos > 0) {
@@ -134,7 +137,7 @@ export default class Player extends GameObjects.Sprite {
         }
     }
 
-    private moveRight() {
+    private moveRight(): void {
         this.move()
         const nextPos = this.x + this.speed
         if (nextPos < this.scene.cameras.main.width) {
@@ -142,7 +145,7 @@ export default class Player extends GameObjects.Sprite {
         }
     }
 
-    private moveUp() {
+    private moveUp(): void {
         this.move()
         const nextPos = this.y - this.speed
         if (nextPos > 0) {
@@ -150,7 +153,7 @@ export default class Player extends GameObjects.Sprite {
         }
     }
 
-    private moveDown() {
+    private moveDown(): void {
         this.move()
         const nextPos = this.y + this.speed
         if (nextPos < this.scene.cameras.main.height) {
@@ -158,7 +161,7 @@ export default class Player extends GameObjects.Sprite {
         }
     }
 
-    private createAnimations() {
+    private createAnimations(): void {
         for (let anim of this.playerAnimations) {
             this.scene.anims.create({
                 key: anim,
@@ -169,7 +172,7 @@ export default class Player extends GameObjects.Sprite {
         }
     }
 
-    update() {
+    update(): void {
         if (this.keyD.isDown) this.moveRight()
         if (this.keyA.isDown) this.moveLeft()
         if (this.keyS.isDown) this.moveDown()
@@ -182,7 +185,7 @@ export default class Player extends GameObjects.Sprite {
         this.body.velocity.y = 0
     }
 
-    updateBullets() {
+    updateBullets(): void {
         this.bulletsPool.pool.forEach((obj) => {
             if (!obj.free) {
                 if (obj.data.x > 0 && obj.data.x < this.scene.cameras.main.width

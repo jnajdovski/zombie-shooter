@@ -6,10 +6,10 @@ import TextButton from '../components/TextButton'
 
 export default class Menu extends Scene {
 
-    background: GameObjects.Image
-    btnPlay: TextButton
+    private background: GameObjects.Image
+    private btnPlay: TextButton
 
-    create() {
+    create(): void {
         this.background = new GameObjects.Image(this, 0, 0, 'background')
         this.background.setOrigin(0, 0)
         this.background.setDisplaySize(this.cameras.main.width, this.cameras.main.height)
@@ -20,7 +20,7 @@ export default class Menu extends Scene {
         this.btnPlay.on('pointerdown', this.playGame, this)
     }
 
-    playGame() {
+    playGame(): void {
         this.scene.start('game')
     }
 }

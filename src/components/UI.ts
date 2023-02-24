@@ -16,28 +16,29 @@ export default class UI {
 
     constructor(scene) {
         this.scene = scene
-
         this.createHealtCounter()
         this.createKillsCounter()
     }
 
-    public updateKillsCounter(kills) {
+    public updateKillsCounter(kills): void {
         this.killsCounter.setText(`KILLS: ${kills}`)
     }
 
-    public updateHealthCounter(health) {
+    public updateHealthCounter(health): void {
         this.healthCounter.setText(`HEALTH: ${health}`)
     }
 
-    private createHealtCounter() {
+    private createHealtCounter(): void {
         this.healthCounter = this.scene.add.text(150, 20, 'HEALTH: 200', this.style)
         this.healthCounter.setOrigin(0.5)
+        this.healthCounter.setDepth(1000)
         this.scene.children.add(this.healthCounter)
     }
 
-    private createKillsCounter() {
+    private createKillsCounter(): void {
         this.killsCounter = this.scene.add.text(this.scene.cameras.main.width / 2, 20, 'KILLS: 0', this.style)
         this.killsCounter.setOrigin(0.5)
+        this.killsCounter.setDepth(1000)
         this.scene.children.add(this.killsCounter)
     }
 }

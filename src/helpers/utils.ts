@@ -1,9 +1,8 @@
-import { GameObjects, Geom } from "phaser"
+import { GameObjects } from "phaser"
 
-const getRandomNum = (max, min) => {
+const getRandomNum = (max, min): number => {
     return Math.floor(Math.random() * (max - min + 1) + min)
 }
-
 
 export const getRandomZombiePosition = (gameW: number, gameH: number): { x: number, y: number } => {
     const isLeft: boolean = Math.random() <= 0.5
@@ -23,7 +22,7 @@ export const getRandomZombiePosition = (gameW: number, gameH: number): { x: numb
     }
 }
 
-export const checkCollision = (obj1: GameObjects.Sprite, obj2: GameObjects.Sprite) => {
+export const checkCollision = (obj1: GameObjects.Sprite, obj2: GameObjects.Sprite): boolean => {
     var boundsA = obj1.getBounds();
     var boundsB = obj2.getBounds();
     return Phaser.Geom.Intersects.RectangleToRectangle(boundsA, boundsB);

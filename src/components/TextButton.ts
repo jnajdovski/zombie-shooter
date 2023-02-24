@@ -7,17 +7,15 @@ export default class TextButton extends GameObjects.Text {
         color: '#fff'
     }) {
         super(scene, x, y, text, style)
-
         this.setOrigin(0.5, 0.5)
-
         scene.children.add(this)
     }
 
-    enable() {
+    enable(): void {
         this.setInteractive({ cursor: 'pointer' })
     }
 
-    disable() {
+    disable(): void {
         this.disableInteractive()
     }
 }

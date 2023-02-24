@@ -2,20 +2,19 @@ import {
     Scene
 } from 'phaser'
 
-
 export default class Boot extends Scene {
-    create() {
+    create(): void {
         this.cameras.main.setBackgroundColor('#34c3eb')
         this.startLoader()
     }
 
-    startLoader() {
+    startLoader(): void {
         this.load.once('start', () => this.loadGameAssets())
         this.load.once('complete', () => this.nextScene())
         this.load.start()
     }
 
-    loadGameAssets() {
+    loadGameAssets(): void {
         this.load.image('background', 'assets/background.jpg')
         this.load.image('crosshair', 'assets/crosshair.png')
         this.load.image('bullet', 'assets/bullet.png')
@@ -29,7 +28,7 @@ export default class Boot extends Scene {
         this.load.spritesheet('zombie_move', 'assets/zombieMoveAnimation.png', { frameWidth: 288, frameHeight: 311, endFrame: 16 })
     }
 
-    nextScene() {
+    nextScene(): void {
         this.scene.start('menu')
     }
 }
