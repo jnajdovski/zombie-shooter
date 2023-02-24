@@ -4,7 +4,8 @@
   "description": "",
   "scripts": {
     "start": "phaserplus project start",
-    "build": "phaserplus project build"
+    "build": "phaserplus project build",
+    "serve": "cross-env STATIC_DIR=\"public\" HOSTNAME=\"localhost\" node public/server.js"
   },
   "repository": {
     "type": "git",
@@ -18,7 +19,8 @@
     "phaser": "^3.55.2"
   },
   "devDependencies": {
-    "parcel": "^2.8.3",
-    "@phaser-plus/cli": "^0.1.7"
+    "@phaser-plus/cli": "^0.1.7",
+    "cross-env": "^7.0.3",
+    "parcel": "^2.8.3"
   }
 }
