@@ -12,10 +12,9 @@ npm start
 ### :bricks: Build
 ```js
 npm run build
-
 npm run serve
-[Project is running on: http://localhost:3200/](http://localhost:3200/)
 ```
+[Project is running on: http://localhost:3200/](http://localhost:3200/)
 
 ## Licence
 The project is licensed under [MIT License]
