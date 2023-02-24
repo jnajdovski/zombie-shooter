@@ -4,6 +4,7 @@ node_modules
 public/*
 !public/assets
 !public/README.md
+!public/server.js
 
 build/*
 !build/README.md
