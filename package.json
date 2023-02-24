@@ -4,7 +4,7 @@
   "description": "",
   "scripts": {
     "start": "phaserplus project start",
-    "build": "phaserplus project build",
+    "build": "phaserplus project build && node helpers/addServer.js && node helpers/removePath.js",
     "serve": "cross-env STATIC_DIR=\"public\" HOSTNAME=\"localhost\" node public/server.js"
   },
   "repository": {
