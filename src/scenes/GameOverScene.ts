@@ -40,8 +40,10 @@ export default class GameOverScene extends Scene {
         this.backToMenu.enable()
 
         this.children.add(this.backToMenu)
-        this.backToMenu.on('pointerdown', () => {
-            this.scene.start('menu')
-        })
+        this.backToMenu.on('pointerdown', () => this.goToMenu())
+    }
+
+    goToMenu() {
+        this.scene.start('menu')
     }
 }
