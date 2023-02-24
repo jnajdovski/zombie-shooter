@@ -2,11 +2,10 @@ import { GameObjects, Scene } from "phaser";
 import Pool from "../helpers/Pool";
 
 export default class Zombie extends GameObjects.Sprite {
-    private zombieAnimations: string[] = ['zombie_move', 'zombie_attack'];
-    public hited: number = 0
-    bulletsPool: Pool
-    playerPosition: { x: number, y: number }
     public attackPlayer: boolean = false
+    private zombieAnimations: string[] = ['zombie_move', 'zombie_attack'];
+    private hited: number = 0
+    private bulletsPool: Pool
     private attacking: boolean = false
     private movingAnimation: boolean = false
 
@@ -28,7 +27,7 @@ export default class Zombie extends GameObjects.Sprite {
         this.body.height = 100
     }
 
-    private createAnimations() {
+    private createAnimations(): void {
         for (let anim of this.zombieAnimations) {
             this.scene.anims.create({
                 key: anim,
@@ -39,14 +38,14 @@ export default class Zombie extends GameObjects.Sprite {
         }
     }
 
-    public attack() {
+    public attack(): void {
         this.movingAnimation = false
         this.play('zombie_attack').on('animationcomplete', () => {
             this.attacking = false
         })
     }
 
-    public move() {
+    public move(): void {
         if (!this.movingAnimation) {
             this.play('zombie_move')
             this.movingAnimation = true
@@ -57,13 +56,13 @@ export default class Zombie extends GameObjects.Sprite {
         this.body.angle = this.angle
     }
 
-    public show(x, y) {
+    public show(x: number, y: number): void {
         this.scene.children.add(this)
         this.setVisible(true)
         this.setPosition(x, y)
     }
 
-    public hide() {
+    public hide(): void {
         this.scene.children.remove(this)
         this.setVisible(false)
         this.hited = 0
@@ -72,13 +71,12 @@ export default class Zombie extends GameObjects.Sprite {
         this.removeAllListeners()
     }
 
-    update(playerPosition) {
+    update(playerPosition): void {
         if (this.visible) {
             if (this.attackPlayer && !this.attacking) {
                 this.attacking = true
                 this.attack()
             } else if (!this.attackPlayer && !this.attacking) {
-                this.playerPosition = playerPosition
                 this.rotation = Phaser.Math.Angle.BetweenPoints(this, playerPosition)
                 this.move()
             } else {
@@ -98,7 +96,7 @@ export default class Zombie extends GameObjects.Sprite {
         }
     }
 
-    public hit() {
+    public hit(): void {
         this.hited++
         if (this.hited >= 4) {
             this.emit('kill')

@@ -34,7 +34,7 @@ export default class Pool {
         return obj;
     }
 
-    release(poolObject): void {
+    release(poolObject: PoolObject): void {
         poolObject.free = true;
 
         poolObject.nextFree = null;

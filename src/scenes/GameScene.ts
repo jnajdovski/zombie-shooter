@@ -30,7 +30,7 @@ export default class GameScene extends Scene {
         this.player = new Player(this, this.gameW / 2, this.gameH / 2)
         this.crosshair = new Crosshair(this)
         this.bloodPool = new Pool(() => this.createBlood(), (obj) => this.resetBlood(obj))
-        this.zombiePool = new Pool(() => this.createZombies(), (obj) => this.resetZombies(obj))
+        this.zombiePool = new Pool(() => this.createZombie(), (obj) => this.resetZombies(obj))
 
         this.UI = new UI(this)
 
@@ -41,7 +41,7 @@ export default class GameScene extends Scene {
         })
     }
 
-    spawnBlood(x, y) {
+    spawnBlood(x: number, y: number) {
         const blood = this.bloodPool.getFree()
         blood.data.show(x, y)
         blood.data.on(Phaser.Animations.Events.ANIMATION_COMPLETE_KEY + 'blood', () => {
@@ -62,7 +62,7 @@ export default class GameScene extends Scene {
         obj.free = true
     }
 
-    createZombies(): Zombie {
+    createZombie(): Zombie {
         const { x, y } = getRandomZombiePosition(this.gameW, this.gameH)
         return new Zombie(this, x, y, this.player.bulletsPool)
     }
